@@ -2,27 +2,39 @@ import { useEffect, useState } from "react";
 import Bar from "./classes/Bar";
 
 export default function Graph() {
-    var arr: number[] = Array.from({length: 40}, () => Math.floor(Math.random() * 200));
-
-
-    function bubbleSort(arr : JSX.Element[]) : void {
-        for (var i = 0; i < arr.length; i++){
-            for (var j=0; j < arr.length; j++) {
-                if(arr[j].props.value > arr[j +1].props.value) {
-                    sortBars()
-                }
-            }
-        }
-    }
-
-    const [bars, sortBars] = useState(
-        arr.map((value) => {
+    var unsortedArr: number[] = Array.from({length: 20}, () => Math.floor(Math.random() * 200));
+    
+    var [bars, swapBars] = useState(
+        unsortedArr.map((value) => {
             var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
             return (
                <Bar value={value} color={randomColor} />
             )
         })
     );
+
+    // Returns a promise that resolves after given delay
+    const timer = (delay: number) => {
+        return new Promise((resolve) => setTimeout(resolve, delay));
+    }
+
+    const bubbleSort = async(arr : JSX.Element[], delay: number) => {
+        let len = arr.length;
+        let checked;
+        do {
+            checked = false;
+            for (let i = 0; i < len - 1; i++) {
+                if (arr[i].props.value > arr[i + 1].props.value) {
+                    let tmp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = tmp;
+                    checked = true;
+                    swapBars([...arr]);
+                    await timer(delay);
+                }
+            }
+        } while (checked);
+    }
     
     return (
         <>
@@ -31,7 +43,7 @@ export default function Graph() {
                     {bars}
                 </div>
             </div>
-            <button onClick={() => bubbleSort(bars)}>Sort!</button>
+            <button onClick={() => {bubbleSort(bars, 30)}}>Sort!</button>
         </>
        
     );
