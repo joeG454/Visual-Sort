@@ -18,28 +18,32 @@ export default function Graph() {
         return new Promise((resolve) => setTimeout(resolve, delay));
     }
 
-    const bubbleSort = async(arr : JSX.Element[], delay: number) => {
-        let len = arr.length;
-        let checked;
-        do {
-            checked = false;
-            for (let i = 0; i < len - 1; i++) {
-                if (arr[i].props.value > arr[i + 1].props.value) {
-                    let tmp = arr[i];
-                    arr[i] = arr[i + 1];
-                    arr[i + 1] = tmp;
-                    checked = true;
-                    swapBars([...arr]);
-                    await timer(delay);
+    const selectionSort = async(arr : JSX.Element[], delay: number) => {
+        let n = arr.length;
+        
+        for(let i = 0; i < n; i++) {
+            // Finding the smallest number in the subarray
+            let min = i;
+            for(let j = i+1; j < n; j++){
+                if(arr[j].props.value < arr[min].props.value) {
+                    min=j; 
                 }
             }
-        } while (checked);
+            if (min != i) {
+                // Swapping the elements
+                let tmp = arr[i]; 
+                arr[i] = arr[min];
+                arr[min] = tmp;   
+                swapBars([...arr]);
+                await timer(delay);   
+            }
+        }
     }
     
     return (
         <>
             <div className="w-100 mx-auto text-center margin-top-3">
-                <h3>Bubble Sort</h3>
+                <h3>Selection Sort</h3>
             </div>
             <div className="graph-wrapper">
                 <div className="bars">
@@ -47,7 +51,7 @@ export default function Graph() {
                 </div>
             </div>
             <div className="w-100 mx-auto text-center margin-top-3">
-                <button onClick={() => {bubbleSort(bars, 30)}}>Sort!</button>
+                <button onClick={() => {selectionSort(bars, 30)}}>Sort!</button>
             </div>
             
         </>

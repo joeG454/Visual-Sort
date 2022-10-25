@@ -7,6 +7,35 @@
   pointer-events: none;
 }
 
+.d-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-50 {
+  flex: 1 1 50%;
+}
+
+.graph-wrapper {
+  margin: auto;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.margin-auto {
+  margin: auto;
+}
+
+.margin-top-3 {
+  margin-top: 0.5rem;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
